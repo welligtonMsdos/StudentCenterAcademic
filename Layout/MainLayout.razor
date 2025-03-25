@@ -1,0 +1,41 @@
+﻿ @inherits LayoutComponentBase
+
+@*
+<div class="page">
+    <div class="sidebar">
+        <NavMenu />
+    </div>
+
+    <main>
+        <div class="top-row px-4">
+            <a href="about">About</a>
+        </div>
+
+        <article class="content px-4">
+            @Body
+        </article>
+    </main>
+</div> *@
+
+<MudThemeProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
+<MudPopoverProvider />
+
+<MudLayout>   
+
+    <MudAppBar Color="Color.Dark" Fixed="false" Contextual>
+        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" />
+        <MudSpacer />        
+    </MudAppBar>
+
+    <MudDrawer Open="true" ClipMode="DrawerClipMode.Docked" Elevation="2">
+        <NavMenu>
+
+        </NavMenu>
+    </MudDrawer>
+
+    <MudMainContent>
+        @Body
+    </MudMainContent>
+</MudLayout>
