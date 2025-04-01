@@ -1,5 +1,7 @@
-﻿
-<MudCard Outlined="true" Elevation="3" Style="height:240px">
+﻿@inject IStudentCenterService studentCenterService
+@inject IJSRuntime JSRuntime
+
+<MudCard Outlined="true" Elevation="3" Style="height:290px; display: flex; flex-direction: column; justify-content: space-between;">
 
     <MudCardHeader>
         <CardHeaderContent>
@@ -10,27 +12,66 @@
     <MudCardContent>
         <MudText Typo="Typo.body2">@itensDto.Description</MudText>
 
-        <MudSelect Label="Escolha uma opção" @bind-Value="_value" Class="mt-4">
+        <MudSelect Label="Escolha uma opção" @bind-Value="_selectedValue" Class="mt-4">
             @foreach (var state in _states)
             {
-                <MudSelectItem Value="state">@state</MudSelectItem>
+                <MudSelectItem Value="state.Id">@state.Name</MudSelectItem>
             }
         </MudSelect>
 
     </MudCardContent>
 
-    <MudCardActions Style="display: flex; justify-content: flex-end;">
-        <MudButton Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Save" Color="Color.Primary">Salvar</MudButton>
+    <MudCardActions Style="display: flex; justify-content: flex-end;padding: 8px;">
+        <MudButton Variant="Variant.Filled" 
+                   EndIcon="@Icons.Material.Filled.Save" 
+                   Color="Color.Primary"
+                   OnClick="UpdateStatus">
+                   Salvar
+        </MudButton>        
+        
     </MudCardActions>
 
 </MudCard>
 
-@code{ 
+@code{
     [Parameter]
-    public SolicitationDto itensDto { get; set; }     
-    
-    string _value;
-   
-    private string[] _states = { "Aprovar", "Negar", };   
+    public SolicitationDto itensDto { get; set; }   
+
+    private class State
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+    }
+
+    private List<State> _states = new List<State>
+    {
+        new State { Id = 0, Name = "Escolha uma opção" },
+        new State { Id = 2, Name = "Aprovar" },
+        new State { Id = 3, Name = "Negar" }
+    };
+
+    protected override void OnInitialized()
+    {       
+        _selectedValue = _states.First().Id;
+    }
+
+    private int _selectedValue;   
+
+    private async Task UpdateStatus()
+    {
+        var apiResponse = await studentCenterService.UpdateStatus(itensDto.Id, _selectedValue);
+
+        if (apiResponse != null)
+        {
+            if (apiResponse.Success)
+            {   
+                await JSRuntime.InvokeVoidAsync("showToastr", "success", "Salvo com sucesso!");
+            }
+            else
+            {               
+                await JSRuntime.InvokeVoidAsync("showToastr", "error", "Erro ao atualizar.Tente novamente.");
+            }
+        }
+    }   
 }
 

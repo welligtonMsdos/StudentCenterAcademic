@@ -16,7 +16,7 @@ namespace StudentCenterAcademic
 
             builder.Services.AddMudServices();            
 
-            builder.Services.AddTransient<IStudentCenterService, StudentCenterService>();
+            builder.Services.AddScoped<IStudentCenterService, StudentCenterService>();
 
             builder.Services.AddHttpClient("StudentCenterAcademicAPI", client =>
             {

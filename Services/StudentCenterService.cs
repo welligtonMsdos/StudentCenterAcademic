@@ -22,4 +22,26 @@ public class StudentCenterService : IStudentCenterService
 
         return await _httpClient.GetFromJsonAsync<ICollection<SolicitationDto>>(endPoint);
     }
+
+    public async Task<ApiResponseDto> UpdateStatus(int id, int statusId)
+    {
+        var endPoint = BASE_PATH + SOLICITATION;
+
+        var requestContent = new
+        {
+            id = id,
+            statusId = statusId
+        };
+       
+        var response = await _httpClient.PatchAsync(endPoint, JsonContent.Create(requestContent));
+       
+        if (response.IsSuccessStatusCode)
+        {            
+            return await response.Content.ReadFromJsonAsync<ApiResponseDto>();
+        }
+        else
+        {
+            throw new Exception($"Erro ao atualizar status. Código de status: {response.StatusCode}");
+        }
+    }
 }
