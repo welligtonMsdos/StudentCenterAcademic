@@ -7,9 +7,26 @@
 
 <MudLayout>   
 
-    <MudAppBar Color="Color.Dark" Fixed="true" Elevation="2">
-        <MudText Typo="Typo.h6">CA - Acadêmico</MudText>
-    </MudAppBar>
+    <MudAppBar Color="Color.Dark" Fixed="false">
+        <MudText Typo="Typo.h6">CA - Acadêmico</MudText>        
+
+        <MudSpacer />
+
+        <AuthorizeView>
+            <Authorized>
+                <p class="my-3 me-3">Hello, @context.User.Identity?.Name!</p>               
+                <MudButton Color="Color.Inherit" Variant="Variant.Text">
+                    Logout
+                </MudButton>
+            </Authorized>
+            <NotAuthorized>
+                <MudButton Color="Color.Inherit" Variant="Variant.Text">
+                    <MudIconButton Icon="@Icons.Material.Filled.Login" Color="Color.Inherit" Href="Login" /> Login
+                </MudButton>
+            </NotAuthorized>
+        </AuthorizeView>
+        
+    </MudAppBar>    
 
     <MudDrawer Open="true" ClipMode="DrawerClipMode.Always" Elevation="2">
         <NavMenu>
