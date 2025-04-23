@@ -1,61 +1,71 @@
 ﻿@page "/Login"
 
-<div class="mx-auto rounded border p-4" style="width: 400px;">
+@using System.ComponentModel.DataAnnotations
 
-    <MudPaper Class="px-8 pt-2 pb-4 nx-12 my-8" justify="Justify.Center">
+<EditForm Model="@model" OnValidSubmit="OnValidSubmit">
+    <DataAnnotationsValidator />
+    <MudGrid>
+        <MudItem xs="12" sm="6">
+            <MudCard>
+                <MudCardContent>
 
-        <MudForm>
+                    <MudTextField Label="Email" Class="mt-3"
+                                  @bind-Value="model.Email" For="@(() => model.Email)" />
 
-            <MudTextField Class="mt-4" T="string"
-                          Placeholder="Email"
-                          @bind-Value="email"
-                          Variant="Variant.Outlined"
-                          Required="true"
-                          RequiredError="Campo obrigatório." />
+                    <MudTextField Label="Password" HelperText="Choose a strong password" Class="mt-3"
+                                  @bind-Value="model.Password" For="@(() => model.Password)" InputType="InputType.Password" />
 
-            <MudTextField Class="mt-4" T="string"
-                          Placeholder="Password"
-                          @bind-Value="password"
-                          Variant="Variant.Outlined"
-                          Required="true"
-                          RequiredError="Campo obrigatório." />
+                </MudCardContent>
 
-            <div class="d-flex align-center justify-space-between mt-4">
-                <MudButton Variant="Variant.Filled"
-                           @onclick="LoginAsync"
-                           Color="Color.Primary"
-                           Class="ml-auto">
-                    Log In
-                </MudButton>
-            </div>
+                <MudCardActions>
+                    <MudButton ButtonType="ButtonType.Submit" 
+                               Variant="Variant.Filled" 
+                               Color="Color.Primary" 
+                               @onclick="LoginAsync"
+                               Class="ml-auto">
+                        Log In
+                    </MudButton>
+                </MudCardActions>
 
-        </MudForm>
-
-    </MudPaper>
-
-</div>
+            </MudCard>
+        </MudItem>
+    </MudGrid>
+</EditForm>
 
 @inject AuthenticationStateProvider provider
 @inject NavigationManager navManager
 
 @code {
-    public string email = "";
-    public string password = "";
-    public string error = "";
+
+    private RegisterAccountForm model = new RegisterAccountForm();
+    bool success;
+
+    private class RegisterAccountForm
+    {
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; }
+
+        [Required]
+        [StringLength(20, ErrorMessage = "Password must be at least 6 characters long.", MinimumLength = 6)]
+        public string Password { get; set; }
+    }
+
+    private void OnValidSubmit(EditContext context)
+    {
+        success = true;
+        StateHasChanged();
+    }
 
     private async Task LoginAsync()
     {
-        var authStateProvider = (CustomAuthStateProvider) provider;
+        var authStateProvider = (CustomAuthStateProvider)provider;
 
-        var result = await authStateProvider.Login(email, password);
+        var result = await authStateProvider.Login(model.Email, model.Password);
 
         if (result.success)
-        {
             navManager.NavigateTo("/");
-        }
         else
-        {
-            error = "login fail";
-        }
+            success = false;
     }
 }
