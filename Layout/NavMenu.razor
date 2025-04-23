@@ -1,19 +1,34 @@
 ﻿
-<MudNavMenu Class="mud-width-full mt-4">
 
-    <MudNavLink Href="/" Icon="@Icons.Material.Filled.Home">Home</MudNavLink>
+<AuthorizeView>
+    <Authorized>
 
-    <MudNavLink Href="Solicitation" Icon="@Icons.Material.Filled.TableRows">Solicitações</MudNavLink>
 
-    <MudNavGroup Title="Cadastros" Icon="@Icons.Material.Filled.Settings" Expanded="true">
+        <MudNavMenu Class="mud-width-full mt-4">
 
-        <MudNavLink Href="Student" Icon="@Icons.Material.Filled.School">Alunos</MudNavLink>
-        <MudNavLink Href="RequestType" Icon="@Icons.Material.Filled.ListAlt">Tipo de Solicitações</MudNavLink>
-        <MudNavLink Href="StudentBase" Icon="@Icons.Material.Filled.SettingsApplications">Central do Aluno</MudNavLink>
+            <MudNavLink Href="/" Icon="@Icons.Material.Filled.Home">Home</MudNavLink>
 
-    </MudNavGroup>
+            <MudNavLink Href="Solicitation" Icon="@Icons.Material.Filled.TableRows">Solicitações</MudNavLink>
 
-</MudNavMenu>
+            <MudNavGroup Title="Cadastros" Icon="@Icons.Material.Filled.Settings" Expanded="true">
+
+                <MudNavLink Href="Student" Icon="@Icons.Material.Filled.School">Alunos</MudNavLink>
+                <MudNavLink Href="RequestType" Icon="@Icons.Material.Filled.ListAlt">Tipo de Solicitações</MudNavLink>
+                <MudNavLink Href="StudentBase" Icon="@Icons.Material.Filled.SettingsApplications">Central do Aluno</MudNavLink>
+
+            </MudNavGroup>
+
+        </MudNavMenu>
+       
+    </Authorized>
+
+    <NotAuthorized>
+
+        <p class="text-white text-center my-3">You're not authorized</p>
+        
+    </NotAuthorized>
+
+</AuthorizeView>
 
 @code {
     

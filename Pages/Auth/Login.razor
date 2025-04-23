@@ -1,0 +1,61 @@
+﻿@page "/Login"
+
+<div class="mx-auto rounded border p-4" style="width: 400px;">
+
+    <MudPaper Class="px-8 pt-2 pb-4 nx-12 my-8" justify="Justify.Center">
+
+        <MudForm>
+
+            <MudTextField Class="mt-4" T="string"
+                          Placeholder="Email"
+                          @bind-Value="email"
+                          Variant="Variant.Outlined"
+                          Required="true"
+                          RequiredError="Campo obrigatório." />
+
+            <MudTextField Class="mt-4" T="string"
+                          Placeholder="Password"
+                          @bind-Value="password"
+                          Variant="Variant.Outlined"
+                          Required="true"
+                          RequiredError="Campo obrigatório." />
+
+            <div class="d-flex align-center justify-space-between mt-4">
+                <MudButton Variant="Variant.Filled"
+                           @onclick="LoginAsync"
+                           Color="Color.Primary"
+                           Class="ml-auto">
+                    Log In
+                </MudButton>
+            </div>
+
+        </MudForm>
+
+    </MudPaper>
+
+</div>
+
+@inject AuthenticationStateProvider provider
+@inject NavigationManager navManager
+
+@code {
+    public string email = "";
+    public string password = "";
+    public string error = "";
+
+    private async Task LoginAsync()
+    {
+        var authStateProvider = (CustomAuthStateProvider) provider;
+
+        var result = await authStateProvider.Login(email, password);
+
+        if (result.success)
+        {
+            navManager.NavigateTo("/");
+        }
+        else
+        {
+            error = "login fail";
+        }
+    }
+}

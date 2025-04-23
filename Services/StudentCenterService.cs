@@ -1,5 +1,7 @@
-﻿using StudentCenterAcademic.DTOs;
+﻿using Blazored.LocalStorage;
+using StudentCenterAcademic.DTOs;
 using StudentCenterAcademic.Interfaces;
+using StudentCenterAcademic.Util;
 using System.Net.Http.Json;
 
 
@@ -7,20 +9,34 @@ namespace StudentCenterAcademic.Services;
 
 public class StudentCenterService : IStudentCenterService
 {
-    private readonly HttpClient _httpClient;
-    private const string BASE_PATH = "/api/v1/";   
+    private readonly HttpClient _client;
+    private const string BASE_PATH = "api/v1/";   
     private const string SOLICITATION = "Solicitation";
+    private string token;
+    private readonly ILocalStorageService _localStorage;
 
-    public StudentCenterService(IHttpClientFactory factory)
+    public StudentCenterService(HttpClient cliente, ILocalStorageService localStorage)
     {
-        _httpClient = factory.CreateClient("StudentCenterAcademicAPI");
+        //_httpClient = factory.CreateClient("StudentCenterAcademicAPI");
+
+        _client = cliente ?? throw new ArgumentNullException(nameof(cliente));
+
+        _localStorage = localStorage;       
     }
    
     public async Task<ICollection<SolicitationDto>> GetAllSolicitationPendingStatuses()
     {
-        var endPoint = BASE_PATH + SOLICITATION + "/GetAllPendingStatuses";        
+        //var endPoint = BASE_PATH + SOLICITATION + "/GetAllPendingStatuses";        
 
-        return await _httpClient.GetFromJsonAsync<ICollection<SolicitationDto>>(endPoint);
+        //return await _client.GetFromJsonAsync<ICollection<SolicitationDto>>(endPoint);
+
+        token = await _localStorage.GetItemAsync<string>("token");
+
+        _client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+
+        var response = await _client.GetAsync(BASE_PATH + SOLICITATION + "/GetAllPendingStatuses");
+
+        return await response.ReadContentAs<List<SolicitationDto>>();
     }
 
     public async Task<ApiResponseDto> UpdateStatus(int id, int statusId)
@@ -33,7 +49,7 @@ public class StudentCenterService : IStudentCenterService
             statusId = statusId
         };
        
-        var response = await _httpClient.PatchAsync(endPoint, JsonContent.Create(requestContent));
+        var response = await _client.PatchAsync(endPoint, JsonContent.Create(requestContent));
        
         if (response.IsSuccessStatusCode)
         {            
