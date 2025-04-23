@@ -1,8 +1,5 @@
 ﻿using StudentCenterAcademic.DTOs;
 using StudentCenterAcademic.Interfaces;
-using System.Net.Http.Json;
-using System.Net;
-using StudentCenterAcademic.Pages;
 using StudentCenterAcademic.Util;
 
 namespace StudentCenterAcademic.Services;
@@ -20,19 +17,8 @@ public class StudentCenterAuthService : IStudentCenterAuthService
 
     public async Task<UserDataLoginDto> UserLogin(string Email, string PassWord)
     {
-        //var endPoint = BASE_PATH + LOGIN;
-       
-        //var user = new UserLoginDto(Email, PassWord);
-
         try
         {
-            //var response = await _httpClient.PostAsync(endPoint, JsonContent.Create(user));
-
-            //if (response.IsSuccessStatusCode)
-            //    return await response.Content.ReadFromJsonAsync<UserDataLoginDto>();
-            //else
-            //    throw new Exception($"Erro: {response.StatusCode}");
-
             var user = new UserLoginDto(Email, PassWord);
 
             var response = await _client.PostAsJson(BASE_PATH + LOGIN, user);

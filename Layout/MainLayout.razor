@@ -1,13 +1,13 @@
 ﻿ @inherits LayoutComponentBase
 
-<MudThemeProvider IsDarkMode="true"/>
+<MudThemeProvider IsDarkMode="false"/>
 <MudDialogProvider />
 <MudSnackbarProvider />
 <MudPopoverProvider />
 
 <MudLayout>   
 
-    <MudAppBar Color="Color.Dark" Fixed="false">
+    <MudAppBar Color="Color.Primary" Fixed="false">
         <MudText Typo="Typo.h6">CA - Acadêmico</MudText>        
 
         <MudSpacer />
@@ -15,7 +15,7 @@
         <AuthorizeView>
             <Authorized>
                 <p class="my-3 me-3">Hello, @context.User.Identity?.Name!</p>               
-                <MudButton Color="Color.Inherit" Variant="Variant.Text">
+                <MudButton Color="Color.Inherit" OnClick="Logout" Variant="Variant.Text">
                     Logout
                 </MudButton>
             </Authorized>
@@ -34,11 +34,23 @@
         </NavMenu>
     </MudDrawer>
 
-    <MudMainContent Class="main-content pa-10">
+    <MudMainContent Class="main-content pa-2">
         @Body
     </MudMainContent>
 </MudLayout>
 
+@inject AuthenticationStateProvider provider
+@inject NavigationManager navigationManager
+
 @code {
+
+    private void Logout()
+    {
+        var authStateProvider = (CustomAuthStateProvider)provider;
+
+        authStateProvider.Logout();
+
+        navigationManager.NavigateTo("/login");
+    }
    
 }

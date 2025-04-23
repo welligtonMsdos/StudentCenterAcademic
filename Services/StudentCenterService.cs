@@ -13,26 +13,24 @@ public class StudentCenterService : IStudentCenterService
     private const string BASE_PATH = "api/v1/";   
     private const string SOLICITATION = "Solicitation";
     private string token;
-    private readonly ILocalStorageService _localStorage;
+    private readonly ISyncLocalStorageService _localStorage;
 
-    public StudentCenterService(HttpClient cliente, ILocalStorageService localStorage)
-    {
-        //_httpClient = factory.CreateClient("StudentCenterAcademicAPI");
-
+    public StudentCenterService(HttpClient cliente, ISyncLocalStorageService localStorage)
+    {  
         _client = cliente ?? throw new ArgumentNullException(nameof(cliente));
 
-        _localStorage = localStorage;       
+        _localStorage = localStorage;
+
+        token = _localStorage.GetItem<string>("token");
+
+        _client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
     }
    
     public async Task<ICollection<SolicitationDto>> GetAllSolicitationPendingStatuses()
     {
-        //var endPoint = BASE_PATH + SOLICITATION + "/GetAllPendingStatuses";        
+        //token = await _localStorage.GetItemAsync<string>("token");
 
-        //return await _client.GetFromJsonAsync<ICollection<SolicitationDto>>(endPoint);
-
-        token = await _localStorage.GetItemAsync<string>("token");
-
-        _client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+        //_client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
 
         var response = await _client.GetAsync(BASE_PATH + SOLICITATION + "/GetAllPendingStatuses");
 
@@ -41,6 +39,10 @@ public class StudentCenterService : IStudentCenterService
 
     public async Task<ApiResponseDto> UpdateStatus(int id, int statusId)
     {
+        //token = await _localStorage.GetItemAsync<string>("token");
+
+        //_client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+
         var endPoint = BASE_PATH + SOLICITATION;
 
         var requestContent = new

@@ -85,4 +85,15 @@ public class CustomAuthStateProvider : AuthenticationStateProvider
             return new ResponseDto { success = false, message = ex.Message };
         }
     }
+
+    public async Task Logout()
+    {
+        await _localStorage.RemoveItemAsync("token");
+
+        await _localStorage.RemoveItemAsync("userId");
+
+        var anonymous = new ClaimsPrincipal(new ClaimsIdentity());
+
+        NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(anonymous)));
+    }
 }

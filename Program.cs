@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using MudBlazor.Services;
 using StudentCenterAcademic.Interfaces;
 using StudentCenterAcademic.Services;
-using System;
 
 namespace StudentCenterAcademic
 {
@@ -17,17 +16,7 @@ namespace StudentCenterAcademic
             builder.RootComponents.Add<App>("#app");
             builder.RootComponents.Add<HeadOutlet>("head::after");
 
-            builder.Services.AddMudServices();
-
-            //builder.Services.AddScoped<IStudentCenterService, StudentCenterService>();
-
-            //builder.Services.AddScoped<IStudentCenterAuthService, StudentCenterAuthService>();
-
-            //builder.Services.AddHttpClient("StudentCenterAcademicAPI", client =>
-            //{
-            //    client.BaseAddress = new Uri(builder.Configuration["ServiceUrls:StudentCenterAPI"]);
-            //    client.DefaultRequestHeaders.Add("Accept", "application/json");
-            //});
+            builder.Services.AddMudServices();           
 
             var uri = builder.Configuration["ServiceUrls:StudentCenterAPI"];
             if (string.IsNullOrEmpty(uri))
@@ -44,14 +33,7 @@ namespace StudentCenterAcademic
                 throw new ArgumentNullException(nameof(uriAuth), "The URI string cannot be null or empty.");
             }
 
-            builder.Services.AddHttpClient<IStudentCenterAuthService, StudentCenterAuthService>(c => c.BaseAddress = new Uri(uriAuth));
-
-            //builder.Services.AddHttpClient("StudentCenterAcademicAuthAPI", client =>
-            //{
-            //    client.BaseAddress = new Uri(builder.Configuration["ServiceUrls:StudentCenterAuthAPI"]);
-            //    client.DefaultRequestHeaders.Add("Accept", "application/json");
-            //});
-            //
+            builder.Services.AddHttpClient<IStudentCenterAuthService, StudentCenterAuthService>(c => c.BaseAddress = new Uri(uriAuth));           
 
             builder.Services.AddBlazoredLocalStorage();
 
