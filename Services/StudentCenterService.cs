@@ -4,7 +4,6 @@ using StudentCenterAcademic.Interfaces;
 using StudentCenterAcademic.Util;
 using System.Net.Http.Json;
 
-
 namespace StudentCenterAcademic.Services;
 
 public class StudentCenterService : IStudentCenterService
@@ -28,10 +27,6 @@ public class StudentCenterService : IStudentCenterService
    
     public async Task<ICollection<SolicitationDto>> GetAllSolicitationPendingStatuses()
     {
-        //token = await _localStorage.GetItemAsync<string>("token");
-
-        //_client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
-
         var response = await _client.GetAsync(BASE_PATH + SOLICITATION + "/GetAllPendingStatuses");
 
         return await response.ReadContentAs<List<SolicitationDto>>();
@@ -39,10 +34,6 @@ public class StudentCenterService : IStudentCenterService
 
     public async Task<ApiResponseDto> UpdateStatus(int id, int statusId)
     {
-        //token = await _localStorage.GetItemAsync<string>("token");
-
-        //_client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
-
         var endPoint = BASE_PATH + SOLICITATION;
 
         var requestContent = new

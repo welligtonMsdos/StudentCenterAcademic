@@ -1,5 +1,7 @@
-﻿using StudentCenterAcademic.DTOs;
+﻿using Blazored.LocalStorage;
+using StudentCenterAcademic.DTOs;
 using StudentCenterAcademic.Interfaces;
+using StudentCenterAcademic.Pages;
 using StudentCenterAcademic.Util;
 
 namespace StudentCenterAcademic.Services;
@@ -9,10 +11,19 @@ public class StudentCenterAuthService : IStudentCenterAuthService
     private readonly HttpClient _client;
     private const string BASE_PATH = "api/v1/";
     private const string LOGIN = "Login";
+    private const string USER = "User";
+    private string token;
+    private readonly ISyncLocalStorageService _localStorage;
 
-    public StudentCenterAuthService(HttpClient cliente)
+    public StudentCenterAuthService(HttpClient cliente, ISyncLocalStorageService localStorage)
     {
         _client = cliente ?? throw new ArgumentNullException(nameof(cliente));
+
+        _localStorage = localStorage;
+
+        token = _localStorage.GetItem<string>("token");
+
+        _client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
     }
 
     public async Task<UserDataLoginDto> UserLogin(string Email, string PassWord)
@@ -29,5 +40,12 @@ public class StudentCenterAuthService : IStudentCenterAuthService
         {
             throw new Exception($"Erro: {ex.Message}");
         }       
+    }
+
+    public async Task<ICollection<UserDto>> GetAllUsers()
+    {
+        var response = await _client.GetAsync(BASE_PATH + USER + "/GetUsers");
+
+        return await response.ReadContentAs<List<UserDto>>();
     }
 }

@@ -1,8 +1,50 @@
 ﻿@page "/Student"
 
-<h5>Student here</h5>
+@if (students != null && students.Count > 0)
+{
+    <MudTable Items="@students">
+
+        <ToolBarContent>
+
+            <MudText Typo="Typo.h6">Alunos</MudText>
+
+        </ToolBarContent>
+
+        <HeaderContent>
+
+            <MudTh Hidden="true">ID</MudTh>
+            <MudTh>NAME</MudTh>
+            <MudTh>EMAIL</MudTh> 
+            
+        </HeaderContent>
+
+        <RowTemplate>
+
+            <MudTd DataLabel="Id" Hidden="true">@context._id</MudTd>
+            <MudTd DataLabel="Name">@context.Name</MudTd>
+            <MudTd DataLabel="Email">@context.Email</MudTd>
+
+        </RowTemplate>
+
+        <PagerContent>
+
+            <MudTablePager PageSizeOptions="new int[] { 10, 25, 50, 100 }" />
+
+        </PagerContent>
+
+    </MudTable>
+
+}
+
+@inject IStudentCenterAuthService authService
 
 @code {
-  
+   
+    private ICollection<UserDto> students;
+
+    protected override async Task OnInitializedAsync()
+    {
+        students = await authService.GetAllUsers();
+    }
 }
 
