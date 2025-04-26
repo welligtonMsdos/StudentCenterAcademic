@@ -3,6 +3,7 @@ using StudentCenterAcademic.DTOs;
 using StudentCenterAcademic.Interfaces;
 using StudentCenterAcademic.Util;
 using System.Net.Http.Json;
+using System.Net.Sockets;
 
 namespace StudentCenterAcademic.Services;
 
@@ -20,7 +21,7 @@ public class StudentCenterService : IStudentCenterService
 
         _localStorage = localStorage;
 
-        token = _localStorage.GetItem<string>("token");
+        token = _localStorage.GetItem<string>("token")?? "";
 
         _client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
     }

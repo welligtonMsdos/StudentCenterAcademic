@@ -1,7 +1,6 @@
 ﻿using Blazored.LocalStorage;
 using StudentCenterAcademic.DTOs;
 using StudentCenterAcademic.Interfaces;
-using StudentCenterAcademic.Pages;
 using StudentCenterAcademic.Util;
 
 namespace StudentCenterAcademic.Services;
@@ -47,5 +46,19 @@ public class StudentCenterAuthService : IStudentCenterAuthService
         var response = await _client.GetAsync(BASE_PATH + USER + "/GetUsers");
 
         return await response.ReadContentAs<List<UserDto>>();
+    }
+
+    public async Task<UserDataLoginDto> AddNewUser(UserCreateDto user)
+    {
+        try
+        {
+            var response = await _client.PostAsJson(BASE_PATH + USER, user);
+
+            return await response.ReadContentAs<UserDataLoginDto>();
+        }
+        catch (Exception ex)
+        {
+            throw new Exception($"Erro: {ex.Message}");
+        }
     }
 }
