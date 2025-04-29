@@ -2,6 +2,7 @@ using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using MudBlazor;
 using MudBlazor.Services;
 using StudentCenterAcademic.Interfaces;
 using StudentCenterAcademic.Services;
@@ -16,7 +17,18 @@ namespace StudentCenterAcademic
             builder.RootComponents.Add<App>("#app");
             builder.RootComponents.Add<HeadOutlet>("head::after");
 
-            builder.Services.AddMudServices();           
+            builder.Services.AddMudServices(config => {
+
+                config.SnackbarConfiguration.VisibleStateDuration = 3000;
+                config.SnackbarConfiguration.PositionClass = Defaults.Classes.Position.TopRight;
+                config.SnackbarConfiguration.PreventDuplicates = false;
+                config.SnackbarConfiguration.NewestOnTop = false;
+                config.SnackbarConfiguration.ShowCloseIcon = true;           
+                config.SnackbarConfiguration.HideTransitionDuration = 0;
+                config.SnackbarConfiguration.ShowTransitionDuration = 0;
+                config.SnackbarConfiguration.SnackbarVariant = Variant.Filled;
+            });
+
 
             var uri = builder.Configuration["ServiceUrls:StudentCenterAPI"];
             if (string.IsNullOrEmpty(uri))

@@ -1,7 +1,5 @@
 ﻿@page "/Login"
 
-@using System.ComponentModel.DataAnnotations
-
 <EditForm Model="@model" OnValidSubmit="OnValidSubmit">
     <DataAnnotationsValidator />
     <MudGrid>
@@ -18,9 +16,9 @@
                 </MudCardContent>
 
                 <MudCardActions>
-                    <MudButton ButtonType="ButtonType.Submit" 
-                               Variant="Variant.Filled" 
-                               Color="Color.Primary" 
+                    <MudButton ButtonType="ButtonType.Submit"
+                               Variant="Variant.Filled"
+                               Color="Color.Primary"
                                @onclick="LoginAsync"
                                Class="ml-auto">
                         Log In
@@ -34,6 +32,7 @@
 
 @inject AuthenticationStateProvider provider
 @inject NavigationManager navManager
+@inject ISnackbar Snackbar
 
 @code {
 
@@ -47,7 +46,6 @@
         public string Email { get; set; }
 
         [Required]
-        [StringLength(20, ErrorMessage = "Password must be at least 6 characters long.", MinimumLength = 6)]
         public string Password { get; set; }
     }
 
@@ -66,6 +64,16 @@
         if (result.success)
             navManager.NavigateTo("/");
         else
+        {
+            //Snackbar.Add(result.message, Severity.Error);
+
+            Snackbar.Add(result.message, Severity.Error, options =>
+            {
+                 options.VisibleStateDuration = 2000;
+            });
+
             success = false;
+        }
+
     }
 }

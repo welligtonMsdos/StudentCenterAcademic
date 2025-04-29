@@ -1,0 +1,78 @@
+﻿@page "/NewStudent"
+
+<MudGrid>
+
+    <MudItem xs="12" sm="6">
+
+        <MudPaper Class="pa-4">
+
+            <MudForm @ref="form" @bind-IsValid="@success">
+
+                <MudTextField T="string" 
+                              Label="Name" 
+                              Required="true" 
+                              RequiredError="Name is required!"
+                              @bind-Value="name" />
+
+
+                <MudTextField T="string" 
+                              Label="Email" 
+                              Required="true" 
+                              RequiredError="Email is required!"
+                              Validation="@(new EmailAddressAttribute() {ErrorMessage = "The email address is invalid"})"
+                              @bind-Value="email" />
+
+            </MudForm>
+
+        </MudPaper>
+
+        <MudPaper Class="pa-4 mt-4">
+          
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" DropShadow="false" @onclick="Salvar">Salvar</MudButton>
+
+            <MudButton Variant="Variant.Filled" Color="Color.Secondary" DropShadow="false" Class="mx-2" @onclick="Back">Voltar</MudButton>    
+            
+        </MudPaper>
+
+    </MudItem>
+
+</MudGrid>
+
+@inject NavigationManager navManager
+@inject ISnackbar Snackbar
+@inject IStudentCenterAuthService authService
+
+@code {
+    bool success;
+
+    string name;
+
+    string email;
+
+    MudForm form;
+
+    private async Task Salvar()
+    {
+        await form.Validate();
+
+        if (success)
+        {
+            var newuser = new UserCreateDto(name,email);
+
+            var result = await authService.AddNewUser(newuser);
+
+            if (result.success)
+            {
+                Snackbar.Add(result.message, Severity.Success);
+                navManager.NavigateTo("/Student");
+            }            
+            else
+                Snackbar.Add(result.message, Severity.Error);
+        }        
+    }
+
+    private void Back()
+    {
+        navManager.NavigateTo("/Student");
+    }
+}

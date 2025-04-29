@@ -8,13 +8,15 @@
 <MudLayout>   
 
     <MudAppBar Color="Color.Primary" Fixed="false">
+        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@ToggleDrawer" />
+
         <MudText Typo="Typo.h6">CA - Acadêmico</MudText>        
 
         <MudSpacer />
 
         <AuthorizeView>
             <Authorized>
-                <p class="my-3 me-3">Hello, @context.User.Identity?.Name!</p>               
+                <p class="my-3 me-3">Olá, @context.User.Identity?.Name!</p>               
                 <MudButton Color="Color.Inherit" OnClick="Logout" Variant="Variant.Text">
                     Logout
                 </MudButton>
@@ -26,9 +28,9 @@
             </NotAuthorized>
         </AuthorizeView>
         
-    </MudAppBar>    
+    </MudAppBar>   
 
-    <MudDrawer Open="true" ClipMode="DrawerClipMode.Always" Elevation="2">
+    <MudDrawer @bind-Open="@_open" ClipMode="_clipMode" Elevation="1" Variant="@DrawerVariant.Responsive">
         <NavMenu>
 
         </NavMenu>
@@ -42,7 +44,16 @@
 @inject AuthenticationStateProvider provider
 @inject NavigationManager navigationManager
 
-@code {
+@code {   
+
+    private bool _open = false;
+    private bool _dense = false;
+    private DrawerClipMode _clipMode = DrawerClipMode.Never;
+
+    private void ToggleDrawer()
+    {
+        _open = !_open;
+    }
 
     private void Logout()
     {

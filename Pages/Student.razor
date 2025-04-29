@@ -2,6 +2,11 @@
 
 @if (students != null && students.Count > 0)
 {
+
+    <div class="d-flex align-center justify-space-between">
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto" @onclick="NewStudent">Novo</MudButton>
+    </div>
+
     <MudTable Items="@students">
 
         <ToolBarContent>
@@ -12,17 +17,19 @@
 
         <HeaderContent>
 
-            <MudTh Hidden="true">ID</MudTh>
-            <MudTh>NAME</MudTh>
-            <MudTh>EMAIL</MudTh> 
-            
+            <MudTh>ID</MudTh>
+            <MudTh>NOME</MudTh>
+            <MudTh>EMAIL</MudTh>
+            <MudTh></MudTh>
+
         </HeaderContent>
 
         <RowTemplate>
 
-            <MudTd DataLabel="Id" Hidden="true">@context._id</MudTd>
+            <MudTd DataLabel="Id">@context._id</MudTd>
             <MudTd DataLabel="Name">@context.Name</MudTd>
             <MudTd DataLabel="Email">@context.Email</MudTd>
+            <MudTd><MudButton Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Editar</MudButton></MudTd>
 
         </RowTemplate>
 
@@ -37,14 +44,20 @@
 }
 
 @inject IStudentCenterAuthService authService
+@inject NavigationManager navManager
 
 @code {
-   
+
     private ICollection<UserDto> students;
 
     protected override async Task OnInitializedAsync()
     {
         students = await authService.GetAllUsers();
+    }
+
+    private void NewStudent()
+    {
+        navManager.NavigateTo("/NewStudent");
     }
 }
 
