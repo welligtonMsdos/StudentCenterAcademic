@@ -27,7 +27,7 @@ public class StudentCenterService : IStudentCenterService
     }
    
     public async Task<ICollection<SolicitationDto>> GetAllSolicitationPendingStatuses()
-    {
+    { 
         var response = await _client.GetAsync(BASE_PATH + SOLICITATION + "/GetAllPendingStatuses");
 
         return await response.ReadContentAs<List<SolicitationDto>>();

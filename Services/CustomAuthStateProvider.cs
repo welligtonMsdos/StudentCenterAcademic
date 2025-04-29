@@ -11,7 +11,8 @@ public class CustomAuthStateProvider : AuthenticationStateProvider
 {
     private readonly IStudentCenterAuthService _service;
     private readonly ILocalStorageService _localStorage;
-    private string _token = "";      
+    private string token = "";
+    private string name = "";
 
     public CustomAuthStateProvider(IStudentCenterAuthService service, 
                                    ILocalStorageService localStorage)
@@ -30,7 +31,9 @@ public class CustomAuthStateProvider : AuthenticationStateProvider
 
         var claimsCookies = jwtToken.Claims.ToList();
 
-        await _localStorage.SetItemAsync("userId", claimsCookies[1].ToString().Replace("id:", "").Trim());
+        name =  claimsCookies[2].ToString().Replace("name: ", "");
+
+        await _localStorage.SetItemAsync("userId", claimsCookies[1].ToString().Replace("id:", "").Trim());        
     }
 
     public override async Task<AuthenticationState> GetAuthenticationStateAsync()
@@ -39,18 +42,18 @@ public class CustomAuthStateProvider : AuthenticationStateProvider
 
         try
         {
-            if (_token.Length == 0) new AuthenticationState(user);
+            if (token.Length == 0) new AuthenticationState(user);
+
+            GeneratedCookie(token);
 
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, "Admin"),
+                new Claim(ClaimTypes.Name, name),
             };
 
-            var identity = new ClaimsIdentity(claims, _token);
+            var identity = new ClaimsIdentity(claims, token);
 
-            user = new ClaimsPrincipal(identity);            
-
-            GeneratedCookie(_token);
+            user = new ClaimsPrincipal(identity); 
 
             return new AuthenticationState(user);
         }
@@ -68,7 +71,7 @@ public class CustomAuthStateProvider : AuthenticationStateProvider
 
             if (response.success)
             {
-                _token = response.Data.Result;
+                token = response.Data.Result;
 
                 NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());               
 
@@ -76,7 +79,7 @@ public class CustomAuthStateProvider : AuthenticationStateProvider
             }
             else
             {
-                return new ResponseDto { success = false, message = "Bad Email or Password" };
+                return new ResponseDto { success = false, message = response.message };
             }            
         }
         catch (Exception ex)

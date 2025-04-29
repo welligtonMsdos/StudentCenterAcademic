@@ -24,8 +24,8 @@ namespace StudentCenterAcademic
                 config.SnackbarConfiguration.PreventDuplicates = false;
                 config.SnackbarConfiguration.NewestOnTop = false;
                 config.SnackbarConfiguration.ShowCloseIcon = true;           
-                config.SnackbarConfiguration.HideTransitionDuration = 500;
-                config.SnackbarConfiguration.ShowTransitionDuration = 500;
+                config.SnackbarConfiguration.HideTransitionDuration = 0;
+                config.SnackbarConfiguration.ShowTransitionDuration = 0;
                 config.SnackbarConfiguration.SnackbarVariant = Variant.Filled;
             });
 
