@@ -7,7 +7,7 @@
         <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto" @onclick="NewStudent">Novo</MudButton>
     </div>
 
-    <MudTable Items="@students">
+    <MudTable Items="@students" Dense=true>
 
         <ToolBarContent>
 
@@ -17,7 +17,7 @@
 
         <HeaderContent>
 
-            <MudTh>ID</MudTh>
+            <MudTh hidden>ID</MudTh>
             <MudTh>NOME</MudTh>
             <MudTh>EMAIL</MudTh>
             <MudTh></MudTh>
@@ -26,10 +26,16 @@
 
         <RowTemplate>
 
-            <MudTd DataLabel="Id">@context._id</MudTd>
+            <MudTd DataLabel="Id" hidden>@context._id</MudTd>
             <MudTd DataLabel="Name">@context.Name</MudTd>
             <MudTd DataLabel="Email">@context.Email</MudTd>
-            <MudTd><MudButton Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Editar</MudButton></MudTd>
+            <MudTd><MudButton Variant="Variant.Filled" 
+                              Color="Color.Primary" 
+                              Class="ml-auto"
+                              OnClick="@(() => NavigateToEdit(context))">
+                              Editar
+                   </MudButton>
+            </MudTd>
 
         </RowTemplate>
 
@@ -40,11 +46,11 @@
         </PagerContent>
 
     </MudTable>
-
 }
 
 @inject IStudentCenterAuthService authService
 @inject NavigationManager navManager
+@inject StudentStateService studentStateService
 
 @code {
 
@@ -53,6 +59,15 @@
     protected override async Task OnInitializedAsync()
     {
         students = await authService.GetAllUsers();
+    }
+
+    private void NavigateToEdit(UserDto userDto)
+    {
+        //studentStateService.CurrentStudent = new UserDto(userDto._id, userDto.Name, userDto.Email);
+
+        studentStateService.CurrentStudent = userDto;
+
+        navManager.NavigateTo("/EditStudent");
     }
 
     private void NewStudent()

@@ -47,9 +47,11 @@ namespace StudentCenterAcademic
 
             builder.Services.AddCascadingAuthenticationState();
 
-            builder.Services.AddAuthorizationCore();
+            builder.Services.AddAuthorizationCore();           
 
             builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthStateProvider>();
+
+            builder.Services.AddScoped<StudentStateService>();
 
             await builder.Build().RunAsync();           
         }
