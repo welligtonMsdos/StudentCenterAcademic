@@ -17,18 +17,14 @@ namespace StudentCenterAcademic
             builder.RootComponents.Add<App>("#app");
             builder.RootComponents.Add<HeadOutlet>("head::after");
 
-            builder.Services.AddMudServices(config => {
-
-                config.SnackbarConfiguration.VisibleStateDuration = 3000;
+            builder.Services.AddMudServices(config =>
+            {
                 config.SnackbarConfiguration.PositionClass = Defaults.Classes.Position.TopRight;
                 config.SnackbarConfiguration.PreventDuplicates = false;
-                config.SnackbarConfiguration.NewestOnTop = false;
-                config.SnackbarConfiguration.ShowCloseIcon = true;           
-                config.SnackbarConfiguration.HideTransitionDuration = 0;
-                config.SnackbarConfiguration.ShowTransitionDuration = 0;
-                config.SnackbarConfiguration.SnackbarVariant = Variant.Filled;
+                config.SnackbarConfiguration.NewestOnTop = true;
+                config.SnackbarConfiguration.ShowCloseIcon = true;
+                config.SnackbarConfiguration.VisibleStateDuration = 5000;
             });
-
 
             var uri = builder.Configuration["ServiceUrls:StudentCenterAPI"];
             if (string.IsNullOrEmpty(uri))
@@ -47,7 +43,7 @@ namespace StudentCenterAcademic
 
             builder.Services.AddHttpClient<IStudentCenterAuthService, StudentCenterAuthService>(c => c.BaseAddress = new Uri(uriAuth));           
 
-            builder.Services.AddBlazoredLocalStorage();
+            builder.Services.AddBlazoredLocalStorage();           
 
             builder.Services.AddCascadingAuthenticationState();
 

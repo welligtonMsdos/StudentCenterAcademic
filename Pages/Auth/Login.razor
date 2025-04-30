@@ -65,15 +65,9 @@
             navManager.NavigateTo("/");
         else
         {
-            //Snackbar.Add(result.message, Severity.Error);
-
-            Snackbar.Add(result.message, Severity.Error, options =>
-            {
-                 options.VisibleStateDuration = 2000;
-            });
+            Snackbar.Add(result.message, Severity.Error);
 
             success = false;
         }
-
     }
 }

@@ -115,3 +115,36 @@ header.mud.appbar.mud-appbar-fixed-top.mud-elevation-2{
 h5{
     color:#000 !important; 
 }
+
+.toast-container {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 1000;
+}
+
+.toast {
+    padding: 1rem;
+    margin-bottom: 0.5rem;
+    border-radius: 5px;
+    color: white;
+    min-width: 200px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+}
+
+    .toast.info {
+        background-color: #2196F3;
+    }
+
+    .toast.success {
+        background-color: #4CAF50;
+    }
+
+    .toast.warning {
+        background-color: #FFC107;
+        color: black;
+    }
+
+    .toast.error {
+        background-color: #F44336;
+    }
