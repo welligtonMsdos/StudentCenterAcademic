@@ -2,24 +2,24 @@
 
 <MudGrid>
 
-    <MudItem xs="12" sm="6">
+    <MudItem xs="12" sm="4">
 
         <MudPaper Class="pa-4">
 
             <MudForm @ref="form" @bind-IsValid="@success">
 
                 <MudTextField T="string" 
-                              Label="Name" 
+                              Label="Nome" 
                               Required="true" 
-                              RequiredError="Name is required!"
+                              RequiredError="Campo obrigatório!"
                               @bind-Value="name" />
 
 
                 <MudTextField T="string" 
                               Label="Email" 
                               Required="true" 
-                              RequiredError="Email is required!"
-                              Validation="@(new EmailAddressAttribute() {ErrorMessage = "The email address is invalid"})"
+                              RequiredError="Campo obrigatório!"
+                              Validation="@(new EmailAddressAttribute() {ErrorMessage = "Email inválido"})"
                               @bind-Value="email" />
 
             </MudForm>

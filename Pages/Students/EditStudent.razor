@@ -1,0 +1,95 @@
+﻿@page "/EditStudent"
+
+<MudGrid>
+
+    <MudItem xs="12" sm="4">
+
+        <MudPaper Class="pa-4">
+
+            <MudForm @ref="form" @bind-IsValid="@success">
+
+                <MudTextField T="string"
+                              Label="Nome"
+                              Required="true"
+                              RequiredError="Campo obrigatório!"
+                              @bind-Value="name" />
+
+
+                <MudTextField T="string"
+                              Label="Email"
+                              Required="true"
+                              RequiredError="Campo obrigatório!"
+                              Validation="@(new EmailAddressAttribute() {ErrorMessage = "Email inválido"})"
+                              @bind-Value="email" />
+
+            </MudForm>
+
+        </MudPaper>
+
+        <MudPaper Class="pa-4 mt-4">
+
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" DropShadow="false" @onclick="Salvar">Salvar</MudButton>
+
+            <MudButton Variant="Variant.Filled" Color="Color.Secondary" DropShadow="false" Class="mx-2" @onclick="Back">Voltar</MudButton>
+
+        </MudPaper>
+
+    </MudItem>
+
+</MudGrid>
+
+@inject NavigationManager navManager
+@inject ISnackbar Snackbar
+@inject IStudentCenterAuthService authService
+@inject StudentStateService studentStateService
+
+@code {   
+
+    bool success;
+
+    string id;
+
+    string name;
+
+    string email;
+
+    MudForm form;
+
+    private UserDto userDto;
+
+    protected override void OnInitialized()
+    {
+        userDto = studentStateService.CurrentStudent;
+
+        id = userDto._id;
+        name = userDto.Name;
+        email = userDto.Email;
+    }
+
+    private async Task Salvar()
+    {
+        await form.Validate();
+
+        if (success)
+        {
+            Snackbar.Add(id, Severity.Success);
+
+            // var newuser = new UserCreateDto(name, email);
+
+            // var result = await authService.AddNewUser(newuser);
+
+            // if (result.success)
+            // {
+            //     Snackbar.Add(result.message, Severity.Success);
+            //     navManager.NavigateTo("/Student");
+            // }
+            // else
+            //     Snackbar.Add(result.message, Severity.Error);
+        }
+    }
+
+    private void Back()
+    {
+        navManager.NavigateTo("/Student");
+    }
+}

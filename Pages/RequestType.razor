@@ -1,6 +1,25 @@
 ﻿@page "/RequestType"
 
-<h5>RequestType</h5>
+<div Class="d-flex justify-space-around flex-wrap mt-4">
+   
+    <MudBadge Icon="@Icons.Material.Filled.List" Color="Color.Info" Overlap="true" Bordered="true" Class="mx-6 my-4">
+        <MudButton Color="Color.Info" Variant="Variant.Filled" DropShadow="false">Todos</MudButton>
+    </MudBadge>
+    
+    <MudBadge Icon="@Icons.Material.Filled.Pending" Color="Color.Warning" Overlap="true" Bordered="true" Class="mx-6 my-4">
+        <MudButton Color="Color.Warning" Variant="Variant.Filled" DropShadow="false">Pendente</MudButton>
+    </MudBadge>
+
+    <MudBadge Icon="@Icons.Material.Filled.Check" Color="Color.Success" Overlap="true" Bordered="true" Class="mx-6 my-4">
+        <MudButton Color="Color.Success" Variant="Variant.Filled" DropShadow="false">Concluído</MudButton>
+    </MudBadge>
+
+    <MudBadge Icon="@Icons.Material.Filled.Block" Color="Color.Error" Overlap="true" Bordered="true" Class="mx-6 my-4">
+        <MudButton Color="Color.Error" Variant="Variant.Filled" DropShadow="false">Negado</MudButton>
+    </MudBadge>   
+    
+
+</div>
 
 @code {
 
