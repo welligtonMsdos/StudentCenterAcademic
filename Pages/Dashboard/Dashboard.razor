@@ -1,0 +1,36 @@
+﻿@page "/Dashboard"
+
+<div Class="d-flex justify-space-around flex-wrap mt-4">
+
+    <MudBadge Icon="@Icons.Material.Filled.List" Color="Color.Info" Overlap="true" Bordered="true" Class="mx-6 my-4">
+        <MudButton Color="Color.Info" Variant="Variant.Filled" DropShadow="false">Todos</MudButton>
+    </MudBadge>
+
+    <MudBadge Icon="@Icons.Material.Filled.Pending" Color="Color.Warning" Overlap="true" Bordered="true" Class="mx-6 my-4">
+        <MudButton Color="Color.Warning" Variant="Variant.Filled" DropShadow="false">Pendente</MudButton>
+    </MudBadge>
+
+    <MudBadge Icon="@Icons.Material.Filled.Check" Color="Color.Success" Overlap="true" Bordered="true" Class="mx-6 my-4">
+        <MudButton Color="Color.Success" Variant="Variant.Filled" DropShadow="false">Concluído</MudButton>
+    </MudBadge>
+
+    <MudBadge Icon="@Icons.Material.Filled.Block" Color="Color.Error" Overlap="true" Bordered="true" Class="mx-6 my-4">
+        <MudButton Color="Color.Error" Variant="Variant.Filled" DropShadow="false">Negado</MudButton>
+    </MudBadge>
+
+</div>
+
+
+<div Class="d-flex justify-space-around flex-wrap mt-4">
+    <MudChart ChartType="ChartType.Donut" Width="300px" Height="300px" InputData="@data" InputLabels="@labels">
+        <CustomGraphics>
+            <text class="donut-inner-text" x="50%" y="35%" dominant-baseline="middle" text-anchor="middle" fill="black" font-family="Helvetica" font-size="20">Total</text>
+            <text class="donut-inner-text" x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="black" font-family="Helvetica" font-size="50">@data.Sum().ToString()</text>
+        </CustomGraphics>
+    </MudChart>
+</div>
+
+@code {
+    public double[] data = { 3, 8, 4};
+    public string[] labels = { "Negado", "Concluído", "Pendente" };
+}

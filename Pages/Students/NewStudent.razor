@@ -38,9 +38,9 @@
 
 </MudGrid>
 
-@inject NavigationManager navManager
 @inject ISnackbar Snackbar
 @inject IStudentCenterAuthService authService
+@inject NavigationManager navManager
 
 @code {
     bool success;
@@ -49,7 +49,7 @@
 
     string email;
 
-    MudForm form;
+    MudForm form;    
 
     private async Task Salvar()
     {

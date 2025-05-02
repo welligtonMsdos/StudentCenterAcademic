@@ -148,3 +148,31 @@ h5{
     .toast.error {
         background-color: #F44336;
     }
+
+.mud-chart-serie:nth-child(1) {
+    fill: #F44336 !important; /* Vermelho */
+}
+
+.mud-chart-serie:nth-child(2) {
+    fill: #00C853 !important; /* Verde */
+}
+
+.mud-chart-serie:nth-child(3) {
+    fill: #FF9800 !important; /* Amarelo */
+}
+
+/*.mud-chart-legend-marker:nth-child(1) {
+    background-color: #F44336 !important;
+}
+
+.mud-chart-legend-marker:nth-child(2) {
+    background-color: #00C853 !important;
+}
+
+.mud-chart-legend-marker:nth-child(3) {
+    background-color: #FF9800 !important;
+}*/
+
+.mud-marker {
+    display: none !important;
+}

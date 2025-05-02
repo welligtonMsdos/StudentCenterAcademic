@@ -38,12 +38,12 @@
 
 </MudGrid>
 
-@inject NavigationManager navManager
 @inject ISnackbar Snackbar
 @inject IStudentCenterAuthService authService
+@inject NavigationManager navManager
 @inject StudentStateService studentStateService
 
-@code {   
+@code {
 
     bool success;
 
@@ -72,19 +72,18 @@
 
         if (success)
         {
-            Snackbar.Add(id, Severity.Success);
+            var editUser = new UserUpdateDto(name, email);
 
-            // var newuser = new UserCreateDto(name, email);
+            var result = await authService.UpdateNameAndEmail(id, editUser);
 
-            // var result = await authService.AddNewUser(newuser);
+            if (result.success)
+            {
+                Snackbar.Add(result.message, Severity.Success);
 
-            // if (result.success)
-            // {
-            //     Snackbar.Add(result.message, Severity.Success);
-            //     navManager.NavigateTo("/Student");
-            // }
-            // else
-            //     Snackbar.Add(result.message, Severity.Error);
+                navManager.NavigateTo("/Student");
+            }
+            else
+                Snackbar.Add(result.message, Severity.Error);            
         }
     }
 

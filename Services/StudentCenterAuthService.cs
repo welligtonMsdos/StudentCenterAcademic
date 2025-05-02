@@ -61,4 +61,34 @@ public class StudentCenterAuthService : IStudentCenterAuthService
             throw new Exception($"Erro: {ex.Message}");
         }
     }
+
+    public async Task<ResponseDto> UpdateNameAndEmail(string id, UserUpdateDto user)
+    {
+        try
+        {
+            var endPoint = BASE_PATH + USER + "/UpdateUserNameAndEmail/" + id;
+
+            var response = await _client.PutAsJson(endPoint, user);
+
+            return await response.ReadContentAs<ResponseDto>();
+        }
+        catch (Exception ex)
+        {
+            throw new Exception($"Erro: {ex.Message}");
+        }
+    }
+
+    public async Task<ResponseDto> DeleteByEmail(string email)
+    {
+        try
+        {
+            var response = await _client.DeleteAsync($"{BASE_PATH + USER}/{email}");
+
+            return await response.ReadContentAs<ResponseDto>();
+        }
+        catch (Exception ex)
+        {
+            throw new Exception($"Erro: {ex.Message}");
+        }
+    }   
 }
