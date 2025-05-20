@@ -1,4 +1,4 @@
-﻿namespace StudentCenterAcademic.DTOs;
+﻿namespace StudentCenterAcademic.DTOs.Response;
 
 public class ApiResponseDto
 {

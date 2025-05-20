@@ -1,9 +1,11 @@
 ﻿using Blazored.LocalStorage;
-using StudentCenterAcademic.DTOs;
+using StudentCenterAcademic.DTOs.RequestType;
+using StudentCenterAcademic.DTOs.Response;
+using StudentCenterAcademic.DTOs.Solicitation;
+using StudentCenterAcademic.DTOs.StudentCenterBase;
 using StudentCenterAcademic.Interfaces;
 using StudentCenterAcademic.Util;
 using System.Net.Http.Json;
-using System.Net.Sockets;
 
 namespace StudentCenterAcademic.Services;
 
@@ -12,6 +14,8 @@ public class StudentCenterService : IStudentCenterService
     private readonly HttpClient _client;
     private const string BASE_PATH = "api/v1/";   
     private const string SOLICITATION = "Solicitation";
+    private const string STUDENT_CENTER_BASE = "StudentCenterBase";
+    private const string REQUEST_TYPE = "RequestType";
     private string token;
     private readonly ISyncLocalStorageService _localStorage;
 
@@ -53,5 +57,19 @@ public class StudentCenterService : IStudentCenterService
         {
             throw new Exception($"Erro ao atualizar status. Código de status: {response.StatusCode}");
         }
+    }
+
+    public async Task<ICollection<StudentCenterBaseDto>> GetAllStudentCenterBase()
+    {
+        var response = await _client.GetAsync(BASE_PATH + STUDENT_CENTER_BASE);
+
+        return await response.ReadContentAs<List<StudentCenterBaseDto>>();
+    }
+
+    public async Task<ICollection<RequestTypeDto>> GetAllRequestType()
+    {
+        var response = await _client.GetAsync(BASE_PATH + REQUEST_TYPE + "/GetAll");
+
+        return await response.ReadContentAs<List<RequestTypeDto>>();
     }
 }

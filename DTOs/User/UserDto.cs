@@ -1,4 +1,4 @@
-﻿namespace StudentCenterAcademic.DTOs;
+﻿namespace StudentCenterAcademic.DTOs.User;
 
 public record UserDto(string _id,
                       string Name,

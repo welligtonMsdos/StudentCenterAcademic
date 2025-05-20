@@ -1,0 +1,73 @@
+﻿@inject IStudentCenterService studentCenterService
+
+@if (studentCenterBase != null && studentCenterBase.Count > 0)
+{
+    <CardNewStudentCenterBase />
+
+    <MudTable Items="@studentCenterBase" Dense=true>
+
+        <ToolBarContent>
+
+            <MudText Typo="Typo.h6">Central do aluno</MudText>
+
+        </ToolBarContent>
+
+        <HeaderContent>
+
+            <MudTh hidden>ID</MudTh>
+            <MudTh>DESCRIÇÃO</MudTh>
+            <MudTh>PAGE</MudTh>
+            <MudTh></MudTh>
+            <MudTh></MudTh>
+
+        </HeaderContent>
+
+        <RowTemplate>
+
+            <MudTd DataLabel="Id" hidden>@context.Id</MudTd>
+            <MudTd DataLabel="Description">@context.Description</MudTd>
+            <MudTd DataLabel="Page">@context.Page</MudTd>
+            <MudTd>
+                <MudButton Variant="Variant.Filled"
+                           Color="Color.Primary"
+                           Class="ml-auto"
+                           OnClick="@(() => EditStudentBaseCenter(context))">
+                    Editar
+                </MudButton>
+            </MudTd>
+            <MudTd>
+                <MudButton Variant="Variant.Filled"
+                           Color="Color.Error"
+                           Class="ml-auto"
+                           OnClick="@(()=>DeleteStudentBaseCenter(context))">
+                    Excluir
+                </MudButton>
+            </MudTd>
+
+        </RowTemplate>
+
+        <PagerContent>
+
+            <MudTablePager PageSizeOptions="new int[] { 10, 25, 50, 100 }" />
+
+        </PagerContent>
+      
+
+    </MudTable>
+}
+
+@code {
+
+    [Parameter]
+    public ICollection<StudentCenterBaseDto> studentCenterBase { get; set; }
+   
+    private void EditStudentBaseCenter(StudentCenterBaseDto userDto)
+    {
+        
+    }
+
+    private async void DeleteStudentBaseCenter(StudentCenterBaseDto userDto)
+    {
+       
+    }
+}

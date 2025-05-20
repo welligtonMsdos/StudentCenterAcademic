@@ -1,0 +1,15 @@
+﻿@page "/RequestType"
+
+@inject IStudentCenterService studentCenterService
+
+<ListRequestType requestType="ListRequestType" />
+
+@code {
+
+    public ICollection<RequestTypeDto> ListRequestType { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        ListRequestType = await studentCenterService.GetAllRequestType();
+    }
+}

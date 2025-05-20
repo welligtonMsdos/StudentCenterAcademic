@@ -1,4 +1,4 @@
-﻿using StudentCenterAcademic.DTOs;
+﻿using StudentCenterAcademic.DTOs.User;
 
 namespace StudentCenterAcademic.Services;
 

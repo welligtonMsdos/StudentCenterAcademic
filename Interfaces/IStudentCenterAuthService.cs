@@ -1,4 +1,5 @@
-﻿using StudentCenterAcademic.DTOs;
+﻿using StudentCenterAcademic.DTOs.Response;
+using StudentCenterAcademic.DTOs.User;
 
 namespace StudentCenterAcademic.Interfaces;
 

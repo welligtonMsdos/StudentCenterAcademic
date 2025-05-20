@@ -1,6 +1,6 @@
 ﻿using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components.Authorization;
-using StudentCenterAcademic.DTOs;
+using StudentCenterAcademic.DTOs.Response;
 using StudentCenterAcademic.Interfaces;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;

@@ -1,5 +1,6 @@
 ﻿using Blazored.LocalStorage;
-using StudentCenterAcademic.DTOs;
+using StudentCenterAcademic.DTOs.Response;
+using StudentCenterAcademic.DTOs.User;
 using StudentCenterAcademic.Interfaces;
 using StudentCenterAcademic.Util;
 
