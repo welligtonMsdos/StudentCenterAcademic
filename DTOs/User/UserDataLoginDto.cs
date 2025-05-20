@@ -1,4 +1,4 @@
-﻿namespace StudentCenterAcademic.DTOs;
+﻿namespace StudentCenterAcademic.DTOs.User;
 
 public class UserDataLoginDto
 {

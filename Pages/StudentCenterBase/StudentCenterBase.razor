@@ -1,0 +1,16 @@
+﻿@page "/StudentCenterBase"
+
+@inject IStudentCenterService studentCenterService
+
+<ListStudentCenterBase studentCenterBase="ListStudentCenterbase" />
+
+@code {
+
+    public ICollection<StudentCenterBaseDto> ListStudentCenterbase { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        ListStudentCenterbase = await studentCenterService.GetAllStudentCenterBase();
+    }
+
+}
