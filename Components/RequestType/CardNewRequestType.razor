@@ -2,11 +2,16 @@
     <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto" @onclick="NewRequestType">Novo</MudButton>
 </div>
 
+@inject NavigationManager navManager
+@inject RequestTypeStateService requestTypeStateService
+
 @code {
 
     private void NewRequestType()
     {
+        requestTypeStateService.CurrentRequestType = new RequestTypeDto(0, "");
 
+        navManager.NavigateTo("/NewRequestType");
     }
 
 }

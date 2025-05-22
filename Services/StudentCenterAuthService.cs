@@ -63,7 +63,7 @@ public class StudentCenterAuthService : IStudentCenterAuthService
         }
     }
 
-    public async Task<ResponseDto> UpdateNameAndEmail(string id, UserUpdateDto user)
+    public async Task<ApiResponseDto> UpdateNameAndEmail(string id, UserUpdateDto user)
     {
         try
         {
@@ -71,7 +71,7 @@ public class StudentCenterAuthService : IStudentCenterAuthService
 
             var response = await _client.PutAsJson(endPoint, user);
 
-            return await response.ReadContentAs<ResponseDto>();
+            return await response.ReadContentAs<ApiResponseDto>();
         }
         catch (Exception ex)
         {
@@ -79,13 +79,13 @@ public class StudentCenterAuthService : IStudentCenterAuthService
         }
     }
 
-    public async Task<ResponseDto> DeleteByEmail(string email)
+    public async Task<ApiResponseDto> DeleteByEmail(string email)
     {
         try
         {
             var response = await _client.DeleteAsync($"{BASE_PATH + USER}/{email}");
 
-            return await response.ReadContentAs<ResponseDto>();
+            return await response.ReadContentAs<ApiResponseDto>();
         }
         catch (Exception ex)
         {

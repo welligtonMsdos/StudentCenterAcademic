@@ -1,121 +1,16 @@
 ﻿@page "/Student"
 
-@if (students != null && students.Count > 0)
-{
-
-    <div class="d-flex align-center justify-space-between">
-        <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto" @onclick="NewStudent">Novo</MudButton>
-    </div>
-
-    <MudTable Items="@students" Dense=true>
-
-        <ToolBarContent>
-
-            <MudText Typo="Typo.h6">Alunos</MudText>
-
-        </ToolBarContent>
-
-        <HeaderContent>
-
-            <MudTh hidden>ID</MudTh>
-            <MudTh>NOME</MudTh>
-            <MudTh>EMAIL</MudTh>
-            <MudTh></MudTh>
-            <MudTh></MudTh>
-
-        </HeaderContent>
-
-        <RowTemplate>
-
-            <MudTd DataLabel="Id" hidden>@context._id</MudTd>
-            <MudTd DataLabel="Name">@context.Name</MudTd>
-            <MudTd DataLabel="Email">@context.Email</MudTd>
-            <MudTd>
-                <MudButton Variant="Variant.Filled"
-                           Color="Color.Primary"
-                           Class="ml-auto"
-                           OnClick="@(() => EditStudent(context))">
-                    Editar
-                </MudButton>
-            </MudTd>
-            <MudTd>
-                <MudButton Variant="Variant.Filled"
-                           Color="Color.Error"
-                           Class="ml-auto"
-                           OnClick="@(()=>DeleteStudent(context))">
-                    Excluir
-                </MudButton>
-            </MudTd>
-
-        </RowTemplate>
-
-        <PagerContent>
-
-            <MudTablePager PageSizeOptions="new int[] { 10, 25, 50, 100 }" />
-
-        </PagerContent>
-
-    </MudTable>
-}
-
-<MudMessageBox @ref="_mudMessageBox" Title="Atenção" CancelText="Cancelar">
-    <MessageContent>
-        Deseja realmente excluir?
-    </MessageContent>
-    <YesButton>
-        <MudButton Variant="Variant.Filled" Color="Color.Error" StartIcon="@Icons.Material.Filled.DeleteForever">Excluir!</MudButton>
-    </YesButton>
-</MudMessageBox>
+<ListStudent students =  "students"/>
 
 @inject IStudentCenterAuthService authService
-@inject ISnackbar Snackbar
-@inject NavigationManager navManager
-@inject StudentStateService studentStateService
 
 @code {
 
-    private ICollection<UserDto> students;
-
-    private MudMessageBox _mudMessageBox;
+    private ICollection<UserDto> students;   
 
     protected override async Task OnInitializedAsync()
     {
         students = await authService.GetAllUsers();
-    }
-
-    private void EditStudent(UserDto userDto)
-    { 
-        studentStateService.CurrentStudent = userDto;
-
-        navManager.NavigateTo("/EditStudent");
-    }
-
-    private async void DeleteStudent(UserDto userDto)
-    {
-        bool? resultMsg = await _mudMessageBox.ShowAsync();
-
-        if (resultMsg == true)
-        {
-            var result = await authService.DeleteByEmail(userDto.Email);
-
-            if (result.success)
-            {
-                students.Remove(userDto);
-
-                StateHasChanged();
-
-                Snackbar.Add("Excluído com sucesso!", Severity.Success);
-            }
-            else
-                Snackbar.Add(result.message, Severity.Error);
-        }
-    }
-
-    private void NewStudent()
-    {
-        studentStateService.CurrentStudent = new UserDto("","","");
-
-        navManager.NavigateTo("/NewStudent");
     }
 }
 

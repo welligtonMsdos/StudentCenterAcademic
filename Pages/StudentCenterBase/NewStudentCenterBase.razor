@@ -1,4 +1,4 @@
-﻿@page "/EditStudent"
+﻿@page "/NewStudentCenterBase"
 
 <MudGrid>
 
@@ -9,18 +9,16 @@
             <MudForm @ref="form" @bind-IsValid="@success">
 
                 <MudTextField T="string"
-                              Label="Nome"
+                              Label="Descrição"
                               Required="true"
                               RequiredError="Campo obrigatório!"
-                              @bind-Value="name" />
-
+                              @bind-Value="description" />
 
                 <MudTextField T="string"
-                              Label="Email"
+                              Label="Page"
                               Required="true"
                               RequiredError="Campo obrigatório!"
-                              Validation="@(new EmailAddressAttribute() {ErrorMessage = "Email inválido"})"
-                              @bind-Value="email" />
+                              @bind-Value="page" />
 
             </MudForm>
 
@@ -38,33 +36,20 @@
 
 </MudGrid>
 
+
 @inject ISnackbar Snackbar
-@inject IStudentCenterAuthService authService
+@inject IStudentCenterService studentCenterService
 @inject NavigationManager navManager
-@inject StudentStateService studentStateService
 
 @code {
 
     bool success;
 
-    string id;
+    string description;
 
-    string name;
-
-    string email;
+    string page;
 
     MudForm form;
-
-    private UserDto userDto;
-
-    protected override void OnInitialized()
-    {
-        userDto = studentStateService.CurrentStudent;
-
-        id = userDto._id;
-        name = userDto.Name;
-        email = userDto.Email;
-    }
 
     private async Task Salvar()
     {
@@ -72,23 +57,23 @@
 
         if (success)
         {
-            var editUser = new UserUpdateDto(name, email);
+            var newStudentCenterBase = new StudentCenterBaseCreateDto(description, page);
 
-            var result = await authService.UpdateNameAndEmail(id, editUser);
-
+            var result = await studentCenterService.PostStudentCenterBase(newStudentCenterBase);
+            
             if (result.Success)
             {
                 Snackbar.Add(result.Message, Severity.Success);
-
-                navManager.NavigateTo("/Student");
+                navManager.NavigateTo("/StudentCenterBase");
             }
             else
-                Snackbar.Add(result.Message, Severity.Error);            
+                Snackbar.Add(result.Message, Severity.Error);
         }
     }
 
     private void Back()
     {
-        navManager.NavigateTo("/Student");
+        navManager.NavigateTo("/StudentCenterBase");
     }
+
 }
