@@ -61,11 +61,11 @@
 
         var result = await authStateProvider.Login(model.Email, model.Password);
 
-        if (result.success)
+        if (result.Success)
             navManager.NavigateTo("/");
         else
         {
-            Snackbar.Add(result.message, Severity.Error);
+            Snackbar.Add(result.Message, Severity.Error);
 
             success = false;
         }

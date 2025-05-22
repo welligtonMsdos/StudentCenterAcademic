@@ -1,5 +1,4 @@
-﻿@inject IStudentCenterService studentCenterService
-
+﻿
 @if (requestType != null && requestType.Count > 0)
 {
     <CardNewRequestType />
@@ -50,23 +49,55 @@
 
         </PagerContent>
 
-
     </MudTable>
 }
+
+<MudMessageBox @ref="_mudMessageBox" Title="Atenção" CancelText="Cancelar">
+    <MessageContent>
+        Deseja realmente excluir?
+    </MessageContent>
+    <YesButton>
+        <MudButton Variant="Variant.Filled" Color="Color.Error" StartIcon="@Icons.Material.Filled.DeleteForever">Excluir!</MudButton>
+    </YesButton>
+</MudMessageBox>
+
+@inject NavigationManager navManager
+@inject RequestTypeStateService requestTypeStateService
+@inject IStudentCenterService studentCenterService
+@inject ISnackbar Snackbar
 
 @code {
 
     [Parameter]
     public ICollection<RequestTypeDto> requestType { get; set; }
 
-    private void EditRequestType(RequestTypeDto userDto)
-    {
+    private MudMessageBox _mudMessageBox;
 
+    private void EditRequestType(RequestTypeDto requestTypeDto)
+    {
+        requestTypeStateService.CurrentRequestType = requestTypeDto;
+
+        navManager.NavigateTo("/EditRequestType");
     }
 
-    private async void DeleteRequestType(RequestTypeDto userDto)
+    private async void DeleteRequestType(RequestTypeDto requestTypeDto)
     {
+        bool? resultMsg = await _mudMessageBox.ShowAsync();
 
+        if (resultMsg == true)
+        {
+            var result = await studentCenterService.DeleteRequestType(requestTypeDto);
+
+            if (result.Success)
+            {
+                requestType.Remove(requestTypeDto);
+
+                StateHasChanged();
+
+                Snackbar.Add(result.Message, Severity.Success);
+            }
+            else
+                Snackbar.Add(result.Message, Severity.Error);
+        }
     }
-
 }

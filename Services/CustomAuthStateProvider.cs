@@ -63,7 +63,7 @@ public class CustomAuthStateProvider : AuthenticationStateProvider
         }       
     }
 
-    public async Task<ResponseDto> Login(string email, string password)
+    public async Task<ApiResponseDto> Login(string email, string password)
     {
         try
         {
@@ -75,16 +75,16 @@ public class CustomAuthStateProvider : AuthenticationStateProvider
 
                 NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());               
 
-                return new ResponseDto { success = true };
+                return new ApiResponseDto { Success = true };
             }
             else
             {
-                return new ResponseDto { success = false, message = response.message };
+                return new ApiResponseDto { Success = false, Message = response.message };
             }            
         }
         catch (Exception ex)
         {
-            return new ResponseDto { success = false, message = ex.Message };
+            return new ApiResponseDto { Success = false, Message = ex.Message };
         }
     }
 

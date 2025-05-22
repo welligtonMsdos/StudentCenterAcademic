@@ -72,4 +72,92 @@ public class StudentCenterService : IStudentCenterService
 
         return await response.ReadContentAs<List<RequestTypeDto>>();
     }
+
+    public async Task<ApiResponseDto> PostRequestType(RequestTypeCreateDto requestTypeCreateDto)
+    {
+        try
+        {
+            var response = await _client.PostAsJson(BASE_PATH + REQUEST_TYPE, requestTypeCreateDto);
+
+            return await response.ReadContentAs<ApiResponseDto>();
+        }
+        catch (Exception ex)
+        {
+            throw new Exception($"Erro: {ex.Message}");
+        }
+    }
+
+    public async Task<ApiResponseDto> PutRequestType(RequestTypeUpdateDto requestTypeUpdateDto)
+    {
+        try
+        {
+            var endPoint = BASE_PATH + REQUEST_TYPE;
+
+            var response = await _client.PutAsJson(endPoint, requestTypeUpdateDto);
+
+            return await response.ReadContentAs<ApiResponseDto>();
+        }
+        catch (Exception ex)
+        {
+            throw new Exception($"Erro: {ex.Message}");
+        }
+    }
+
+    public async Task<ApiResponseDto> DeleteRequestType(RequestTypeDto requestTypeDto)
+    {
+        try
+        {
+            var response = await _client.DeleteAsync($"{BASE_PATH + REQUEST_TYPE}/{requestTypeDto.Id}");
+
+            return await response.ReadContentAs<ApiResponseDto>();
+        }
+        catch (Exception ex)
+        {
+            throw new Exception($"Erro: {ex.Message}");
+        }
+    }
+
+    public async Task<ApiResponseDto> PostStudentCenterBase(StudentCenterBaseCreateDto studentCenterBaseCreateDto)
+    {
+        try
+        {
+            var response = await _client.PostAsJson(BASE_PATH + STUDENT_CENTER_BASE, studentCenterBaseCreateDto);
+
+            return await response.ReadContentAs<ApiResponseDto>();
+        }
+        catch (Exception ex)
+        {
+            throw new Exception($"Erro: {ex.Message}");
+        }
+    }
+
+    public async Task<ApiResponseDto> PutStudentCenterBase(StudentCenterBaseUpdateDto studentCenterBaseUpdateDto)
+    {
+        try
+        {
+            var endPoint = BASE_PATH + STUDENT_CENTER_BASE;
+
+            var response = await _client.PutAsJson(endPoint, studentCenterBaseUpdateDto);
+
+            return await response.ReadContentAs<ApiResponseDto>();
+        }
+        catch (Exception ex)
+        {
+            throw new Exception($"Erro: {ex.Message}");
+        }
+    }
+
+    public async Task<ApiResponseDto> DeleteStudentCenterBase(StudentCenterBaseDto studentCenterBaseDto)
+    {
+        try
+        {
+            var response = await _client.DeleteAsync($"{BASE_PATH + STUDENT_CENTER_BASE}/{studentCenterBaseDto.Id}");
+
+            return await response.ReadContentAs<ApiResponseDto>();
+        }
+        catch (Exception ex)
+        {
+            throw new Exception($"Erro: {ex.Message}");
+        }
+    }
 }

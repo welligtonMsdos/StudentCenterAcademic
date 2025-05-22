@@ -3,11 +3,16 @@
     <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto" @onclick="NewStudentCenterBase">Novo</MudButton>
 </div>
 
+@inject NavigationManager navManager
+@inject StudentCenterBaseStateService studentCenterBaseStateService
+
 @code {
 
     private void NewStudentCenterBase()
     {
-       
+        studentCenterBaseStateService.CurrentStudentCenterBase = new StudentCenterBaseDto(0, "", "");
+
+        navManager.NavigateTo("/NewStudentCenterBase");
     }
 
 }

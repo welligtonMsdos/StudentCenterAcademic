@@ -1,0 +1,15 @@
+﻿<div class="d-flex align-center justify-space-between">
+    <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto" @onclick="NewStudent">Novo</MudButton>
+</div>
+
+@inject NavigationManager navManager
+@inject StudentStateService studentStateService
+
+@code {
+    private void NewStudent()
+    {
+        studentStateService.CurrentStudent = new UserDto("", "", "");
+
+        navManager.NavigateTo("/NewStudent");
+    }
+}

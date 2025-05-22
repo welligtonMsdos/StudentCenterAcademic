@@ -53,6 +53,10 @@ namespace StudentCenterAcademic
 
             builder.Services.AddScoped<StudentStateService>();
 
+            builder.Services.AddScoped<RequestTypeStateService>();
+
+            builder.Services.AddScoped<StudentCenterBaseStateService>();
+
             await builder.Build().RunAsync();           
         }
     }

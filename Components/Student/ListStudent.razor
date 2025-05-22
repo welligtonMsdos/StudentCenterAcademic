@@ -1,21 +1,20 @@
-﻿
-@if (studentCenterBase != null && studentCenterBase.Count > 0)
+﻿@if (students != null && students.Count > 0)
 {
-    <CardNewStudentCenterBase />
+    <CardStudent />
 
-    <MudTable Items="@studentCenterBase" Dense=true>
+    <MudTable Items="@students" Dense=true>
 
         <ToolBarContent>
 
-            <MudText Typo="Typo.h6">Central do aluno</MudText>
+            <MudText Typo="Typo.h6">Alunos</MudText>
 
         </ToolBarContent>
 
         <HeaderContent>
 
             <MudTh hidden>ID</MudTh>
-            <MudTh>DESCRIÇÃO</MudTh>
-            <MudTh>PAGE</MudTh>
+            <MudTh>NOME</MudTh>
+            <MudTh>EMAIL</MudTh>
             <MudTh></MudTh>
             <MudTh></MudTh>
 
@@ -23,14 +22,14 @@
 
         <RowTemplate>
 
-            <MudTd DataLabel="Id" hidden>@context.Id</MudTd>
-            <MudTd DataLabel="Description">@context.Description</MudTd>
-            <MudTd DataLabel="Page">@context.Page</MudTd>
+            <MudTd DataLabel="Id" hidden>@context._id</MudTd>
+            <MudTd DataLabel="Name">@context.Name</MudTd>
+            <MudTd DataLabel="Email">@context.Email</MudTd>
             <MudTd>
                 <MudButton Variant="Variant.Filled"
                            Color="Color.Primary"
                            Class="ml-auto"
-                           OnClick="@(() => EditStudentBaseCenter(context))">
+                           OnClick="@(() => EditStudent(context))">
                     Editar
                 </MudButton>
             </MudTd>
@@ -38,7 +37,7 @@
                 <MudButton Variant="Variant.Filled"
                            Color="Color.Error"
                            Class="ml-auto"
-                           OnClick="@(()=>DeleteStudentBaseCenter(context))">
+                           OnClick="@(()=>DeleteStudent(context))">
                     Excluir
                 </MudButton>
             </MudTd>
@@ -50,7 +49,6 @@
             <MudTablePager PageSizeOptions="new int[] { 10, 25, 50, 100 }" />
 
         </PagerContent>
-      
 
     </MudTable>
 }
@@ -64,36 +62,35 @@
     </YesButton>
 </MudMessageBox>
 
-@inject NavigationManager navManager
-@inject StudentCenterBaseStateService studentCenterBaseStateService
-@inject IStudentCenterService studentCenterService
+@inject IStudentCenterAuthService authService
 @inject ISnackbar Snackbar
+@inject NavigationManager navManager
+@inject StudentStateService studentStateService
 
 @code {
-
     [Parameter]
-    public ICollection<StudentCenterBaseDto> studentCenterBase { get; set; }
+    public ICollection<UserDto> students { get; set; }  
 
     private MudMessageBox _mudMessageBox;
 
-    private void EditStudentBaseCenter(StudentCenterBaseDto studentCenterDto)
+    private void EditStudent(UserDto userDto)
     {
-        studentCenterBaseStateService.CurrentStudentCenterBase = studentCenterDto;
+        studentStateService.CurrentStudent = userDto;
 
-        navManager.NavigateTo("/EditStudentCenterBase");
+        navManager.NavigateTo("/EditStudent");
     }
 
-    private async void DeleteStudentBaseCenter(StudentCenterBaseDto studentCenterBaseDto)
+    private async void DeleteStudent(UserDto userDto)
     {
         bool? resultMsg = await _mudMessageBox.ShowAsync();
 
         if (resultMsg == true)
         {
-            var result = await studentCenterService.DeleteStudentCenterBase(studentCenterBaseDto);
+            var result = await authService.DeleteByEmail(userDto.Email);
 
             if (result.Success)
             {
-                studentCenterBase.Remove(studentCenterBaseDto);
+                students.Remove(userDto);
 
                 StateHasChanged();
 
