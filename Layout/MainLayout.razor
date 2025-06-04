@@ -1,6 +1,6 @@
 ﻿ @inherits LayoutComponentBase
 
-<MudThemeProvider IsDarkMode="false"/>
+<MudThemeProvider IsDarkMode="false" Theme="myTheme"/>
 <MudDialogProvider />
 <MudSnackbarProvider />
 <MudPopoverProvider />
@@ -15,8 +15,7 @@
         <MudSpacer />
 
         <AuthorizeView>
-            <Authorized>
-               @*  <p class="my-3 me-3">Olá, @context.User.Identity?.Name!</p>  *@
+            <Authorized>              
                 <p class="my-3 me-3">Olá!</p>
                 <MudButton Color="Color.Inherit" OnClick="Logout" Variant="Variant.Text">
                     Logout
@@ -46,18 +45,11 @@
 @inject AuthenticationStateProvider provider
 @inject NavigationManager navigationManager
 
-@code {   
+@code {
 
-    private bool _open = false;
-    // private bool _dense = false;
-    // private DrawerClipMode _clipMode = DrawerClipMode.Never;
+    private bool _open = false;    
     private Anchor _anchor;
-    private bool _overlayAutoClose = true;
-
-    // private void ToggleDrawer()
-    // {
-    //     _open = !_open;
-    // }
+    private bool _overlayAutoClose = true;   
 
     private void OpenDrawer(Anchor anchor)
     {
@@ -73,5 +65,20 @@
 
         navigationManager.NavigateTo("/login");
     }
-   
+
+    private MudTheme myTheme = new MudTheme()
+    {
+        PaletteLight = new PaletteLight()
+        {
+                Primary = "#4e097b",
+                TextPrimary = "#000000",
+                Secondary = "#FF4081",
+            Background = "#FFFFFF",
+            AppbarBackground = "#FFFFFF",
+            DrawerBackground = "#FFFFFF",
+            Surface = "#FFFFFF",            
+            TextSecondary = "#B0BEC5"            
+        }
+    };
+
 }

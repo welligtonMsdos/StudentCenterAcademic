@@ -3,6 +3,7 @@ using StudentCenterAcademic.DTOs.RequestType;
 using StudentCenterAcademic.DTOs.Response;
 using StudentCenterAcademic.DTOs.Solicitation;
 using StudentCenterAcademic.DTOs.StudentCenterBase;
+using StudentCenterAcademic.DTOs.TimeLine;
 using StudentCenterAcademic.Interfaces;
 using StudentCenterAcademic.Util;
 using System.Net.Http.Json;
@@ -16,6 +17,7 @@ public class StudentCenterService : IStudentCenterService
     private const string SOLICITATION = "Solicitation";
     private const string STUDENT_CENTER_BASE = "StudentCenterBase";
     private const string REQUEST_TYPE = "RequestType";
+    private const string TIME_LINE = "TimeLine";
     private string token;
     private readonly ISyncLocalStorageService _localStorage;
 
@@ -159,5 +161,16 @@ public class StudentCenterService : IStudentCenterService
         {
             throw new Exception($"Erro: {ex.Message}");
         }
+    }
+
+    public async Task<ICollection<TimeLineDto>> GetAllTimeLines(string studentId)
+    {
+        studentId = studentId.Replace("\"", "");
+
+        string endPoint =$"{BASE_PATH}{TIME_LINE}/GetByStudentId?studentId={studentId}";       
+
+        var response = await _client.GetAsync(endPoint);
+
+        return await response.ReadContentAs<List<TimeLineDto>>();
     }
 }

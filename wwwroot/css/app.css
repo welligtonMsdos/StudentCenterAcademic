@@ -161,18 +161,9 @@ h5{
     fill: #FF9800 !important; /* Amarelo */
 }
 
-/*.mud-chart-legend-marker:nth-child(1) {
-    background-color: #F44336 !important;
-}
-
-.mud-chart-legend-marker:nth-child(2) {
-    background-color: #00C853 !important;
-}
-
-.mud-chart-legend-marker:nth-child(3) {
-    background-color: #FF9800 !important;
-}*/
-
 .mud-marker {
     display: none !important;
 }
+
+
+
