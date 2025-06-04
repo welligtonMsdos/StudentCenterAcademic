@@ -1,0 +1,56 @@
+﻿@inject IStudentCenterService studentCenterService
+
+@if (timeLines != null && timeLines.Count > 0)
+{
+    <MudTimeline TimelineAlign="TimelineAlign.End">
+
+        @foreach (var item in timeLines)
+        {
+
+            var color = item.status switch
+            {
+                "Pendente" => Color.Warning,
+                "Negado" => Color.Error,               
+                _ => Color.Success 
+            };
+
+            <MudTimelineItem Color="@color" Elevation="25" TimelineAlign="TimelineAlign.End">
+              
+                <ItemOpposite>
+
+                    <MudText Color="Color.Primary" Typo="Typo.h6">@item.data.ToShortDateString()</MudText>
+
+                </ItemOpposite>
+
+                <ItemContent>
+
+                    <MudPaper Elevation="0" Class="mt-n1">
+
+                        <MudText Color="Color.Primary" Typo="Typo.h6" GutterBottom="true">@item.solicitation</MudText>  
+
+                    </MudPaper>
+
+                </ItemContent>
+
+            </MudTimelineItem>
+        }
+
+    </MudTimeline>
+}
+
+ @inject IJSRuntime JS
+
+@code {
+
+    private ICollection<TimeLineDto> timeLines;   
+
+    private string userId;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        userId = await JS.InvokeAsync<string>("localStorage.getItem", "userId");
+
+        timeLines = await studentCenterService.GetAllTimeLines(userId);
+    }
+}

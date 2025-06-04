@@ -33,7 +33,9 @@ public class CustomAuthStateProvider : AuthenticationStateProvider
 
         name =  claimsCookies[2].ToString().Replace("name: ", "");
 
-        await _localStorage.SetItemAsync("userId", claimsCookies[1].ToString().Replace("id:", "").Trim());        
+        var userId = claimsCookies[1].ToString().Replace("id:", "").Replace("'","").Trim();
+
+        await _localStorage.SetItemAsync("userId", userId);        
     }
 
     public override async Task<AuthenticationState> GetAuthenticationStateAsync()
