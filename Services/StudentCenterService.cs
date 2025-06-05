@@ -1,4 +1,5 @@
 ﻿using Blazored.LocalStorage;
+using StudentCenterAcademic.DTOs.Dashboard;
 using StudentCenterAcademic.DTOs.RequestType;
 using StudentCenterAcademic.DTOs.Response;
 using StudentCenterAcademic.DTOs.Solicitation;
@@ -18,6 +19,7 @@ public class StudentCenterService : IStudentCenterService
     private const string STUDENT_CENTER_BASE = "StudentCenterBase";
     private const string REQUEST_TYPE = "RequestType";
     private const string TIME_LINE = "TimeLine";
+    private const string DASHBOARD = "Dashboard";
     private string token;
     private readonly ISyncLocalStorageService _localStorage;
 
@@ -172,5 +174,16 @@ public class StudentCenterService : IStudentCenterService
         var response = await _client.GetAsync(endPoint);
 
         return await response.ReadContentAs<List<TimeLineDto>>();
+    }
+
+    public async Task<ICollection<DashboardDto>> GetDashboardByStudentId(string studentId)
+    {
+        studentId = studentId.Replace("\"", "");
+
+        string endPoint = $"{BASE_PATH}{DASHBOARD}/GetUsers?studentId={studentId}";
+
+        var response = await _client.GetAsync(endPoint);
+
+        return await response.ReadContentAs<List<DashboardDto>>();
     }
 }

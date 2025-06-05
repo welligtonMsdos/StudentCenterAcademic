@@ -1,6 +1,7 @@
 ﻿@page "/Dashboard"
 
-@* <div Class="d-flex justify-space-around flex-wrap mt-4">
+@* 
+<div Class="d-flex justify-space-around flex-wrap mt-4">
 
     <MudBadge Icon="@Icons.Material.Filled.List" Color="Color.Info" Overlap="true" Bordered="true" Class="mx-6 my-4">
         <MudButton Color="Color.Info" Variant="Variant.Filled" DropShadow="false">Todos</MudButton>
@@ -18,11 +19,14 @@
         <MudButton Color="Color.Error" Variant="Variant.Filled" DropShadow="false">Negado</MudButton>
     </MudBadge>
 
-</div> *@
+</div>  *@
 
+@inject IStudentCenterService studentCenterService
+@inject IJSRuntime JS
 
 <div Class="d-flex justify-space-around flex-wrap mt-4">
-    <MudChart ChartType="ChartType.Donut" Width="300px" Height="300px" InputData="@data" InputLabels="@labels">
+    <MudChart ChartType="ChartType.Donut" ChartOptions="_options"
+              Width="300px" Height="300px" InputData="@data" InputLabels="@labels">
         <CustomGraphics>
             <text class="donut-inner-text" x="50%" y="35%" dominant-baseline="middle" text-anchor="middle" fill="black" font-family="Helvetica" font-size="20">Total</text>
             <text class="donut-inner-text" x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="black" font-family="Helvetica" font-size="50">@data.Sum().ToString()</text>
@@ -31,6 +35,30 @@
 </div>
 
 @code {
-    public double[] data = { 3, 8, 4};
-    public string[] labels = { "Negado", "Concluído", "Pendente" };
+    private ICollection<DashboardDto> dashboardDto;
+
+    private string userId;
+
+    private double[] data;
+
+    private string[] labels = { "Concluído", "Negado", "Pendente" };
+
+    ChartOptions _options = new()
+        {
+            ChartPalette = new string[] { "#00c853", "#f44336", "#ff9800" } 
+        };
+
+    protected override async Task OnInitializedAsync()
+    {
+        userId = await JS.InvokeAsync<string>("localStorage.getItem", "userId");
+
+        dashboardDto = await studentCenterService.GetDashboardByStudentId(userId);
+
+        data = new double[]
+        {
+            dashboardDto.FirstOrDefault()?.CountCompleted ?? 0,
+            dashboardDto.FirstOrDefault()?.CountDenied ?? 0,
+            dashboardDto.FirstOrDefault()?.CountPending ?? 0
+        };
+    }
 }
