@@ -1,0 +1,12 @@
+services:
+  student-center-api:
+    container_name: student-center-academic
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5001:80"   
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    volumes:
+      - ./dataprotection-keys:/home/app/.aspnet/DataProtection-Keys
